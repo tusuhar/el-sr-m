@@ -1,44 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Actividad Práctica – Métodos de Cadenas y Math</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0; }
+    header { background:#2c3e50; color:#fff; padding:20px; text-align:center; }
+    main { max-width:900px; margin:20px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.2); }
+    h1 { margin-top:0; }
+    .card { margin-bottom:20px; padding:15px; border:1px solid #ccc; border-radius:8px; }
+    label { font-weight:bold; display:block; margin-top:10px; }
+    input[type="text"]{ width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; margin-bottom:10px; }
+    button { padding:10px 15px; border:none; border-radius:6px; margin-top:10px; cursor:pointer; background:#2c3e50; color:white; }
+    button:hover { background:#34495e; }
+    pre { background:#eee; padding:10px; border-radius:6px; overflow:auto; }
+    .out { background:#fafafa; border:1px dashed #aaa; padding:10px; border-radius:6px; min-height:50px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Actividad Práctica – Registro de Estudiantes</h1>
+    <p>Uso de métodos de cadenas y objeto Math en JavaScript</p>
+  </header>
 
- <!DOCTYPE html>
- <html lang="en">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora</title>
+  <main>
+    <section class="card">
+      <h2>Datos de ejemplo</h2>
+      <label for="nombreA">Estudiante A</label>
+      <input id="nombreA" type="text" value="Carlos Perez Gomez" />
 
-    <link rel="stylesheet" href="estilos.css">
- </head>
- <body>
-    <div id="calculator">
-        <input type="text" id="display" disabled>
-        <br />
-        <button id="ac" class="operator">AC</button>
-        <button id="de" class="operator">DE</button>
-        <button id="." class="operator">.</button>
-        <button id="/" class="operator">/</button>
-        <br />
-        <button id="7">7</button>
-        <button id="8">8</button>
-        <button id="9">9</button>
-        <button id="*" class="operator">*</button>
-        <br />
-        <button id="4">4</button>
-        <button id="5">5</button>
-        <button id="6">6</button>
-        <button id="-" class="operator">-</button>
-        <br />
-        <button id="1">1</button>
-        <button id="2">2</button>
-        <button id="3">3</button>
-        <button id="+" class="operator">+</button>
-        <br />
-        <button id="00">00</button>
-        <button id="0">0</button>
-        <button id="=" class="equal operator">=</button>
-    </div>
-    <script src="scripts.js"></script>
- </body>
- </html>
+      <label for="nombreB">Estudiante B</label>
+      <input id="nombreB" type="text" value="Sofia Gutierrez" />
+
+      <button id="btnRun">Ejecutar pasos</button>
+      <button id="btnReset">Restablecer</button>
+    </section>
+
+    <section class="card">
+      <h2>Resultados</h2>
+      <div id="salida" class="out"></div>
+    </section>
+
+    <section class="card">
+      <h2>Código usado (resumen)</h2>
+      <pre><code id="codeSample"></code></pre>
+    </section>
+  </main>
+
+  <script>
+    const salida = document.getElementById('salida');
+    const codeSample = document.getElementById('codeSample');
+    const nombreA = document.getElementById('nombreA');
+    const nombreB = document.getElementById('nombreB');
+
+    const mostrar = (linea) => {
+      salida.textContent += linea + "\n";
+    };
+
+    const limpiar = () => {
+      salida.textContent = "";
+    };
+
+    const run = () => {
+      limpiar();
+      let nombreCompleto = nombreA.value;
+      mostrar("1) Nombre completo: " + nombreCompleto);
+
+      mostrar("2) Longitud del nombre: " + nombreCompleto.length);
+
+      mostrar("3) ¿Incluye 'Perez'?: " + nombreCompleto.includes("Perez"));
+
+      let registros = nombreCompleto.concat(" | ", nombreB.value);
+      mostrar("4) Registros unidos: " + registros);
+
+      let reemplazado = nombreCompleto.replace("Carlos", "Juan");
+      mostrar("5) Reemplazo de 'Carlos' por 'Juan': " + reemplazado);
+
+      let partes = nombreCompleto.split(" ");
+      mostrar("6) Partes del nombre:");
+      mostrar("   Primer nombre: " + (partes[0] || ""));
+      mostrar("   Primer apellido: " + (partes[1] || ""));
+      mostrar("   Segundo apellido: " + (partes[2] || ""));
+
+      mostrar("7) Mayúsculas: " + nombreCompleto.toUpperCase());
+
+      let conEspacios = "   " + nombreCompleto + "   ";
+      mostrar("8) Trim(): '" + conEspacios.trim() + "'");
+
+      let calificacion = Math.round(Math.random() * 100);
+      mostrar("9) Calificación aleatoria (0-100): " + calificacion);
+
+      // Mostrar snippet del código
+      codeSample.textContent =
+`let nombreCompleto = "${nombreA.value}";
+console.log(nombreCompleto.length);
+console.log(nombreCompleto.includes("Perez"));
+console.log(nombreCompleto.concat(" | ", "${nombreB.value}"));
+console.log(nombreCompleto.replace("Carlos", "Juan"));
+const partes = nombreCompleto.split(" ");
+console.log(partes[0], partes[1], partes[2]);
+console.log(nombreCompleto.toUpperCase());
+console.log(("   " + nombreCompleto + "   ").trim());
+console.log(Math.round(Math.random() * 100));`;
+    };
+
+    document.getElementById('btnRun').addEventListener('click', run);
+    document.getElementById('btnReset').addEventListener('click', () => {
+      nombreA.value = "Carlos Perez Gomez";
+      nombreB.value = "Sofia Gutierrez";
+      limpiar();
+      codeSample.textContent = "";
+    });
+
+    // Ejecutar al inicio
+    run();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
